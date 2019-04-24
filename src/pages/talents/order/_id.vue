@@ -1,0 +1,244 @@
+<template>
+  <div class="container">
+    <div class="top-talents-content">
+      <div class="top-talents-img">
+        <img src="/img/sample-image-show.png" alt="">
+      </div>
+    </div>
+    <div class="order-contents">
+      <div class="order-content">
+        <div class="question-text">
+          <p>誰のためのビデオですか？</p>
+        </div>
+        <div class="select-form">
+          <button class="form-left" v-bind:class="{active:isActive}" @click="leftactive">他人</button>
+          <button class="form-right" v-bind:class="{active:!isActive}" @click="active">自分</button>
+        </div>
+      </div>
+      <div class="order-content">
+        <div class="question-text">
+          <p>あなたの名前は？</p>
+        </div>
+        <input type="text" v-model="yourname" placeholder="あなたの名前">
+      </div>
+      <div class="order-content" v-if="isActive">
+        <div class="question-text">
+          <p>贈る人の名前は？</p>
+        </div>
+        <input type="text" v-model="sendname" placeholder="送る人の名前">
+      </div>
+      <div class="order-content">
+        <div class="question-text">
+          <p>どんなビデオをご希望ですか？</p>
+        </div>
+        <textarea name="name" rows="8" cols="80" v-model="videomessage" placeholder="希望のビデオ内容"></textarea>
+      </div>
+    </div>
+    <footer class="bottom-bar">
+      <div class="order-confirm-content">
+        <div class="order-confirm-btn">
+          <button @click="orderbtn">¥3000円で確定する</button>
+        </div>
+      </div>
+    </footer>
+  </div>
+</template>
+
+<script>
+import firebase from '~/plugins/firebase'
+import { mapActions, mapState, mapGetters } from 'vuex'
+export default {
+  data() {
+    return {
+      // 切り替え
+      isActive: true,
+      // 自分か他人か
+      IndexForWho: '',
+      // 自分の名前
+      yourname: '',
+      // 送る人の名前
+      sendname: '',
+      // ビデオメッセージ
+      videomessage: '',
+
+      orderid: ''
+    }
+  },
+  // computed: {
+  //   ...mapState(['orderid']),
+  //   ...mapGetters(['getorderid'])
+  // },
+  methods: {
+    // active押すとfalseへ切り替え
+    active() {
+      this.isActive = !this.isActive
+    },
+    // leftactive押すとfalseへ切り替え
+    leftactive() {
+      this.isActive = !this.isActive
+    },
+    orderbtn() {
+      console.log(this.yourname);
+      console.log(this.sendname);
+      console.log(this.videomessage);
+      console.log(this.isActive);
+
+      // 他人に送る場合
+      if (this.isActive == true) {
+
+        const ref_order = firebase.database().ref().child('order');
+
+        this.orderid = ref_order.push({}).key;
+        console.log(this.orderid);
+
+        var orderid = this.orderid
+
+
+        const ref_orderid = firebase.database().ref().child('order').child(this.orderid);
+
+        ref_orderid.set({
+          IndexForWho: '0',
+          from: this.yourname,
+          orderTextData: this.videomessage,
+          to: this.sendname
+        });
+
+        // ユーザーの中にorderinthepastを保存
+        firebase.auth().onAuthStateChanged(function(user) {
+          if (user) {
+            // User is signed in.
+            console.log(user.uid);
+            console.log(orderid);
+            var timestamp = firebase.database.ServerValue.TIMESTAMP
+
+            const ref_order_user = firebase.database().ref().child('users').child(user.uid).child("orderInThePast").child(orderid);
+
+            ref_order_user.set({
+              orderid
+            })
+
+          } else {
+            // No user is signed in.
+            conosole.log("ログインしてない！")
+          }
+        });
+
+        // 自分に送る場合
+      } else {
+
+        const ref_order = firebase.database().ref().child('order');
+
+        this.orderid = ref_order.push({}).key;
+
+        const ref_orderid = firebase.database().ref().child('order').child(this.orderid);
+
+        ref_orderid.set({
+          IndexForWho: '1',
+          orderTextData: this.videomessage,
+          to: this.yourname,
+          // startedAt: firebase.database.ServerValue.TIMESTAMP
+        });
+
+
+      }
+    }
+  }
+}
+</script>
+
+<style scoped>
+/* 注文ページ */
+/* タレントの画像 */
+.top-talents-content {
+  margin: 10px 30px;
+}
+
+.top-talents-img img {
+  border-radius: 50px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.12), 0 2px 2px 0 rgba(0,0,0,.24);
+  width: 100px;
+}
+
+/* 質問 */
+
+.order-contents {
+  margin: 30px;
+}
+
+.order-content {
+  margin: 15px 0;
+}
+
+.question-text p {
+  margin: 0;
+  font-size: 18px;
+}
+
+/* 自分か他人かを選ぶ */
+.select-form {
+  display: flex;
+  width: max-content;
+  margin: 20px auto;
+}
+
+.form-left {
+  border-radius: 10px 0 0 10px;
+  border: 1px solid #ccc;
+  padding: 10px 40px;
+  margin: 0;
+  background-color: #fff;
+  font-size: 16px;
+}
+
+.form-right {
+  border-radius: 0px 10px 10px 0;
+  border: 1px solid #ccc;
+  padding: 10px 40px;
+  margin: 0;
+  background-color: #fff;
+  font-size: 16px;
+}
+
+/* active押すとclassが追加される */
+.form-left.active {
+  background-color: #eee;
+}
+
+.form-right.active {
+  background-color: #eee;
+}
+
+input[type="text"] {
+  border-radius: 4px;
+  border: solid 1px #ccc;
+  font-size: 18px;
+  margin: 20px 0;
+  padding: 10px;
+  width: 250px;
+}
+
+textarea {
+  border-radius: 4px;
+  border: solid 1px #ccc;
+  font-size: 18px;
+  margin: 20px 0;
+  padding: 10px;
+  width: 250px;
+}
+
+/* footerの注文確定ボタン */
+.order-confirm-content {
+  width: 100%;
+  text-align: center;
+}
+
+.order-confirm-content button {
+  margin: 10px auto;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: aqua;
+  padding: 5px;
+  width: 80%;
+  border-radius: 10px;
+}
+</style>
