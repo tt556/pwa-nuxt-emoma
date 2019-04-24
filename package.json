@@ -1,8 +1,8 @@
 {
-  "name": "nuxt-firebase-pwa",
+  "name": "nuxt-emoma",
   "version": "1.0.0",
-  "description": "Next.js * Firebase = SPA * SSR * PWA * Serverless",
-  "author": "Shinnosuke Uwai <uydasan@gmail.com>",
+  "description": "nuxt-emoma",
+  "author": "矢野李空 <silk.riku0369@gmail.com>",
   "private": true,
   "scripts": {
     "setup": "npm run clean && npm run copyassets && npm run copystatic",

@@ -86,7 +86,26 @@
 </template>
 
 <script>
-// import firebase from '~/plugins/firebase'
+import firebase from '~/plugins/firebase'
+import { mapActions, mapState, mapGetters } from 'vuex'
+export default {
+  data() {
+    return {
+
+    }
+  },
+  created() {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+        console.log(user);
+      } else {
+        // No user is signed in.
+        console.log('ログインしてない')
+      }
+    });;
+  }
+}
 </script>
 
 <style scoped>
