@@ -34,13 +34,14 @@
         <textarea name="name" rows="8" cols="80" v-model="videomessage" placeholder="希望のビデオ内容"></textarea>
       </div>
     </div>
-    <footer class="bottom-bar">
+
+    <div class="bottom-bar">
       <div class="order-confirm-content">
         <div class="order-confirm-btn">
           <button @click="orderbtn">¥3000円で確定する</button>
         </div>
       </div>
-    </footer>
+    </div>
   </div>
 </template>
 
