@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "firebase": "^5.10.0",
-    "nuxt": "^1.0.0"
+    "nuxt": "^1.0.0",
+    "stripe": "^4.15.0"
   },
   "devDependencies": {
     "ajv": "^6.0.0",
