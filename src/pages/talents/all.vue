@@ -1,8 +1,9 @@
 <template id="">
   <div class="container">
+    <nav-bar/>
     <!-- 検索バー -->
     <div class="search">
-      <input type="search" name="search" value="検索する">
+      <!-- <input type="search" name="search" placeholder="検索する"> -->
     </div>
     <!-- タレントのカテゴリーとイメージ -->
     <div class="talentbox">
@@ -12,17 +13,17 @@
       <div class="talents">
         <div class="talent-img">
           <nuxt-link to="/talents/show/-Ld4jV015mvJlM9-crKY">
-            <img src="https://firebasestorage.googleapis.com/v0/b/push-bc760.appspot.com/o/%E3%82%BF%E3%83%AC%E3%83%B3%E3%83%88%2F7.jpeg?alt=media&token=87ded474-b4ff-483c-b01a-7cecd3978e6b" alt="YOUTUBER" width="160px">
+            <img src="https://firebasestorage.googleapis.com/v0/b/push-bc760.appspot.com/o/%E3%82%BF%E3%83%AC%E3%83%B3%E3%83%88%2F7.jpeg?alt=media&token=87ded474-b4ff-483c-b01a-7cecd3978e6b" alt="YOUTUBER" width="160px" height="200px">
           </nuxt-link>
         </div>
         <div class="talent-img">
           <nuxt-link to="/talents/show/-Ld4kVNEKHtTfnaWi-aJ">
-            <img src="https://firebasestorage.googleapis.com/v0/b/push-bc760.appspot.com/o/%E3%82%BF%E3%83%AC%E3%83%B3%E3%83%88%2F1.jpeg?alt=media&token=c5c8ce90-3ee6-4f03-be67-8d06a3ce7d1f" alt="YOUTUBER" width="160px">
+            <img src="https://firebasestorage.googleapis.com/v0/b/push-bc760.appspot.com/o/%E3%82%BF%E3%83%AC%E3%83%B3%E3%83%88%2F1.jpeg?alt=media&token=c5c8ce90-3ee6-4f03-be67-8d06a3ce7d1f" alt="YOUTUBER" width="160px" height="200px">
           </nuxt-link>
         </div>
         <div class="talent-img">
           <nuxt-link to="/talents/show/-Ld4khO5LwtY3VpXPvjk">
-            <img src="https://firebasestorage.googleapis.com/v0/b/push-bc760.appspot.com/o/%E3%82%BF%E3%83%AC%E3%83%B3%E3%83%88%2F2.jpeg?alt=media&token=c5ad411b-7d04-45bd-ae84-dd062107572e" alt="YOUTUBER" width="160px">
+            <img src="https://firebasestorage.googleapis.com/v0/b/push-bc760.appspot.com/o/%E3%82%BF%E3%83%AC%E3%83%B3%E3%83%88%2F2.jpeg?alt=media&token=c5ad411b-7d04-45bd-ae84-dd062107572e" alt="YOUTUBER" width="160px" height="200px">
           </nuxt-link>
         </div>
       </div>
@@ -88,13 +89,17 @@
 <script>
 import firebase from '~/plugins/firebase'
 import { mapActions, mapState, mapGetters } from 'vuex'
+import NavBar from '~/components/NavBar.vue'
 export default {
   data() {
     return {
 
     }
   },
-  created() {
+  components: {
+    NavBar
+  },
+  mounted() {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         // User is signed in.
@@ -113,6 +118,7 @@ export default {
 /* 検索 */
 .search {
   text-align: center;
+  margin: 70px 0 0 0;
 }
 
 input[type="search"] {
@@ -126,7 +132,7 @@ input[type="search"] {
 
   /* タレント一覧 */
 .talentbox {
-  margin: 15px 5px 5px 5px;
+  margin: 15px 5px 35px 5px;
 }
 
 .talent-category {
@@ -136,6 +142,7 @@ input[type="search"] {
 h2 {
   font-size: 18px;
   font-weight: 600;
+  margin-bottom: 10px;
 }
 
   /* 画像スライド */
@@ -165,6 +172,9 @@ h2 {
 }
 
 .talent-img img {
+  height: 200px;
+  width: 160px;
+  object-fit: cover;
   border-radius: 15px;
   margin: 0 5px;
   float: left;

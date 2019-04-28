@@ -1,19 +1,22 @@
 <template>
-  <div>
-    <!-- ログイン中に表示される画面 -->
-    <div v-if="isAuthenticated">
-      {{ user.email }}でログイン中です<br>
-      <button v-on:click="logout">ログアウト</button><br>
-      <!-- <a href="/member-page">メンバーページへ</a> -->
-    </div>
-    <!-- ログインしていない時に表示される画面 -->
-    <div v-else>
-      メール<br>
-      <input type="text" v-model="email"><br>
-      パスワード<br>
-      <input type="password" v-model="password"><br>
-      <button v-on:click="login">ログイン</button><br>
-      <button v-on:click="signUp">Register</button>
+  <div class="backimage">
+    <div class="title-content">
+      <div class="title-name">
+        <h1>emoma!</h1>
+      </div>
+      <div class="catch-copy">
+        <p>大好きなあの人から、<br>あなただけのビデオレター</p>
+      </div>
+      <div class="registration-content">
+        <div class="input-content">
+          <input type="text" v-model="email" placeholder="　メールアドレス"><br>
+          <input type="password" v-model="password" placeholder="　パスワード"><br>
+        </div>
+        <div class="button-content">
+          <button v-on:click="login">ログイン</button><br>
+          <button v-on:click="signUp">新規登録</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -60,7 +63,7 @@ export default {
       firebase.auth().signInWithEmailAndPassword(this.email, this.password)
       .then(user => {
         // ログインしたら飛ぶページを指定
-        this.$router.push("/talents/top")
+        this.$router.push("/talents/all")
       }).catch((error) => {
         alert(error)
       });
@@ -77,6 +80,7 @@ export default {
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
         .then(user => {
           alert('Create account: ', user.email)
+          this.$router.push("/talents/all")
         })
         .catch(error => {
           alert(error.message)
@@ -85,3 +89,80 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+body {
+  color: #4d4d4d;
+  font-family: "秀英丸ゴシック B", "Shuei MaruGo B", YuGothic, "Yu Gothic", 游ゴシック, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", メイリオ, Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+}
+
+input {
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  line-height: 2.5;
+  width: 200px;
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+button {
+  background-color: #fff;
+  border-radius: 20px;
+  border: none;
+  line-height: 2;
+  font-size: 14px;
+  margin: 0 5px 0 5px;
+  padding: 5px 15px;
+  color: #4d4d4d;
+}
+
+.backimage {
+  background: linear-gradient(150deg,#00f1e6 15%,rgba(214,56,255,.5) 65%);
+  height: 100vh;
+}
+
+.title-content {
+  padding: 100px 30px;
+}
+
+.title-name {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.title-name h1 {
+  color: #fff !important;
+  font-size: 4.5em;
+}
+
+.catch-copy {
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.catch-copy p {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.registration-content {
+
+}
+
+.input-content {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.button-content {
+  text-align: center;
+  display: flex;
+  width: 200px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+
+
+</style>

@@ -5,7 +5,7 @@
         <div class="back-img"></div>
         <div class="relative-box">
           <div class="talents-show-img">
-            <img :src="tfile" alt="" width="100px">
+            <img :src="tfile" alt="" width="100px" height="100px;">
           </div>
           <div class="talent-profile-name-texts">
             <div class="talents-name">
@@ -18,15 +18,13 @@
           <div class="category-boxes">
             <div class="category-box">
               <div class="category-name">女優</div>
-              <div class="category-name">タレント</div>
-              <div class="category-name">YouTuber</div>
             </div>
           </div>
         </div>
       </div>
       <div class="talents-bottom-videos">
         <div class="latest-videos">
-          <p>Latest-videos</p>
+          <p>最新のビデオ</p>
         </div>
         <div class="videos">
           <!-- <video src="https://firebasestorage.googleapis.com/v0/b/push-bc760.appspot.com/o/test5.MOV?alt=media&token=0c1b986a-6d16-463a-882e-fc6426d7b229" controls></video>
@@ -48,7 +46,7 @@
       <div class="bar-contents">
         <div class="to-order-box">
           <div class="to-order-btn">
-            <nuxt-link to="/talents/order/-LcxqM_5g7T50nBTuoAY">
+            <nuxt-link class="deco" :to="{ name: 'talents-order-id', params: { id: tid}}">
               <p>予約する</p>
             </nuxt-link>
           </div>
@@ -77,6 +75,7 @@ export default {
   created() {
     // routeのidを取得
     var tid = this.$nuxt.$route.params.id
+    this.tid = tid
     console.log(tid);
     // データベースを定義
     var database = firebase.database();
@@ -149,7 +148,7 @@ export default {
   left: 0;
   right: 0;
   height: 100px;
-  background: linear-gradient(150deg,#00f1e6 17%,rgba(214,56,255,.7) 85%);
+  background: linear-gradient(150deg,#00f1e6 10%,rgba(214,56,255,.5) 65%);
 }
 
 /* タレントの画像とプロフィール */
@@ -166,6 +165,9 @@ export default {
 .talents-show-img img {
   border-radius: 50px;
   box-shadow: 0 2px 2px 0 rgba(0,0,0,.12), 0 2px 2px 0 rgba(0,0,0,.24);
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
 }
 
 .talents-show-img video {
@@ -173,9 +175,18 @@ export default {
   box-shadow: 0 2px 2px 0 rgba(0,0,0,.12), 0 2px 2px 0 rgba(0,0,0,.24);
 }
 
+.talent-profile-name-texts {
+  margin: 10px 0;
+}
+
 .talents-name {
   font-size: 18px;
   font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.talents-profile-texts {
+  border-bottom: 15px;
 }
 
 .category-name {
@@ -183,7 +194,7 @@ export default {
   box-shadow: 0 1px 12px -5px hsla(0,0%,54.9%,.9);
   box-sizing: border-box;
   display: inline-block;
-  margin: 0 12px 16px 0;
+  margin: 10px 12px 16px 0;
   background-color: #f0f0f0;
   line-height: normal;
   padding: 6px 16px;
@@ -228,11 +239,18 @@ export default {
   font-size: 14px;
 }
 
+.deco {
+  text-decoration: none;
+  text-align: center;
+}
+
 .to-order-btn p {
-  background-color: aqua;
-  border-radius: 10px;
+  background: linear-gradient(150deg,#00f1e6 10%,rgba(214,56,255,.5) 65%);
+  border-radius: 25px;
   padding: 10px;
   margin: 5px;
+  color: #fff;
+  font-weight: 600;
 }
 
 </style>
