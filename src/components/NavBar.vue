@@ -2,7 +2,9 @@
   <div class="navbar">
     <div class="navbar-content">
       <div class="nav-logo">
-        <h1>emoma!</h1>
+        <nuxt-link class="links" to="/talents/all">
+          <h1>emoma!</h1>
+        </nuxt-link>
       </div>
       <div class="signup">
         <nuxt-link class="deco" to="/users/registration">

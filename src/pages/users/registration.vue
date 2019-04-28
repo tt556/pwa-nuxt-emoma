@@ -114,6 +114,7 @@ button {
   margin: 0 5px 0 5px;
   padding: 5px 15px;
   color: #4d4d4d;
+  font-weight: 600;
 }
 
 .backimage {

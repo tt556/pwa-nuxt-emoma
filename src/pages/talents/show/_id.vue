@@ -1,11 +1,21 @@
 <template>
   <div>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <div class="container">
       <div class="talent-profile-top">
         <div class="back-img"></div>
         <div class="relative-box">
-          <div class="talents-show-img">
-            <img :src="tfile" alt="" width="100px" height="100px;">
+          <div class="img-logo">
+            <div class="talents-show-img">
+              <img :src="tfile" alt="" width="100px" height="100px;">
+            </div>
+            <div class="logos">
+              <a href="https://twitter.com/emoma_official">
+                <i class="fab fa-twitter fa-2x"></i>
+              </a>
+              <i class="fab fa-instagram fa-2x"></i>
+              <i class="fab fa-youtube fa-2x"></i>
+            </div>
           </div>
           <div class="talent-profile-name-texts">
             <div class="talents-name">
@@ -17,7 +27,7 @@
           </div>
           <div class="category-boxes">
             <div class="category-box">
-              <div class="category-name">女優</div>
+              <div class="category-name">{{ tcategory }}</div>
             </div>
           </div>
         </div>
@@ -69,7 +79,8 @@ export default {
       tfile: '',
       tid: '',
       video: '',
-      videoo: ''
+      videoo: '',
+      tcategory: ''
     }
   },
   created() {
@@ -83,6 +94,7 @@ export default {
     var datatname = database.ref('talents/' + tid + '/tname');
     var datatext = database.ref('talents/' + tid + '/ttext');
     var datatfile = database.ref('talents/' + tid + '/tfile');
+    var datacategory = database.ref('talents/' + tid + '/category');
     var datavideo = database.ref('talents/' + tid + '/video' + "/1");
     var datavideoo = database.ref('talents/' + tid + '/video' + "/2");
 
@@ -134,6 +146,14 @@ export default {
         const videoo = snapshot.val()
         this.videoo = videoo
       }
+    }),
+
+    datacategory.on('value', snapshot => {
+      if (snapshot) {
+        console.log(snapshot.val())
+        const tcategory = snapshot.val()
+        this.tcategory = tcategory
+      }
     })
   }
 }
@@ -170,6 +190,20 @@ export default {
   object-fit: cover;
 }
 
+.img-logo {
+  display: flex;
+}
+
+.logos {
+  margin: 60px 0 0 60px;
+  display: flex;
+}
+
+.logos i {
+  margin-right: 20px;
+  color: #000;
+}
+
 .talents-show-img video {
   border-radius: 50px;
   box-shadow: 0 2px 2px 0 rgba(0,0,0,.12), 0 2px 2px 0 rgba(0,0,0,.24);
@@ -191,13 +225,14 @@ export default {
 
 .category-name {
   border-radius: 20px;
-  box-shadow: 0 1px 12px -5px hsla(0,0%,54.9%,.9);
+  /* box-shadow: 0 1px 12px -5px hsla(0,0%,54.9%,.9); */
   box-sizing: border-box;
   display: inline-block;
   margin: 10px 12px 16px 0;
-  background-color: #f0f0f0;
+  /* background-color: #f0f0f0; */
   line-height: normal;
   padding: 6px 16px;
+  border: 1px solid #4d4d4d;
 }
 
 .talents-bottom-videos {
