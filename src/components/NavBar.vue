@@ -17,6 +17,10 @@
 
 <style>
 
+.links {
+  text-decoration: none;
+}
+
 .navbar {
   width: 100%;
   line-height: 1.5;

@@ -187,7 +187,7 @@ export default {
           this.sendname = "",
           this.videomessage = ""
 
-          
+
         } else {
           alert("入力されてない欄があります")
         }
@@ -198,6 +198,11 @@ export default {
 </script>
 
 <style scoped>
+body {
+  font-family: "Noto Sans CJK JP", "NotoSansCJKjp", "FontAwesome", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+  color: #4d4d4d;
+  font-weight: 600;
+}
 /* 注文ページ */
 /* タレントの画像 */
 .back-img {

@@ -92,8 +92,9 @@ export default {
 
 <style scoped>
 body {
+  font-family: "Noto Sans CJK JP", "NotoSansCJKjp", "FontAwesome", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
   color: #4d4d4d;
-  font-family: "秀英丸ゴシック B", "Shuei MaruGo B", YuGothic, "Yu Gothic", 游ゴシック, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", メイリオ, Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+  font-weight: 600;
 }
 
 input {

@@ -25,7 +25,7 @@
       </div>
       <div class="description-content">
         <div class="description-text">
-          <p>自分へのご褒美や、誰かの誕生日のサプライズに、大好きなあの人にビデオレターをリクエストしましょう！　あなたのための特別なビデオレターが届きます！</p>
+          <p>自分へのご褒美に。<br>友達の誕生日サプライズに。<br>大好きなあの人にビデオレターをリクエストしよう！<br>あなたのための特別なビデオレターが届きます！</p>
         </div>
         <div class="description-img">
           <img src="img/video-sample-shadow.png" alt="" width="170px">
@@ -100,13 +100,19 @@
     <footer>
       <div class="footer-content">
         <div class="terms">
-          <p>利用規約</p>
+          <a href="/contents/term">
+            <p>利用規約</p>
+          </a>
         </div>
         <div class="privacy-policy">
-          <p>プライバシーポリシー</p>
+          <a href="/contents/policy">
+            <p>プライバシーポリシー</p>
+          </a>
         </div>
         <div class="law">
-          <p>特定商取引法</p>
+          <a href="/contents/law">
+            <p>特定商取引法</p>
+          </a>
         </div>
         <div class="copy-rights">
           <p>©︎locachi.inc</p>
@@ -123,9 +129,13 @@
 <style>
 
 body {
-  font-family: "秀英丸ゴシック B", "Shuei MaruGo B", YuGothic, "Yu Gothic", 游ゴシック, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", メイリオ, Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+  font-family: "Noto Sans CJK JP", "NotoSansCJKjp", "FontAwesome", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
   color: #4d4d4d;
   font-weight: 600;
+}
+
+a {
+  text-decoration: none;
 }
 
 p {
@@ -228,8 +238,9 @@ p {
 }
 
 .description-text p {
-  line-height: 35px;
+  line-height: 43px;
   margin: 10px 0px;
+  font-size: 14px;
 }
 
 #talents {
@@ -404,5 +415,33 @@ footer {
   font-size: 13px;
 }
 
+/* PC */
+
+@media (min-width: 769px) {
+  .description-content {
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .description-text p {
+    line-height: 60px;
+    font-size: 17px;
+  }
+
+  .talnets-img-container img {
+    width: 400px;
+
+  }
+
+  .talents-name-container {
+    width: 400px;
+    margin: 0 auto;
+  }
+
+  .form-text {
+    text-align: center;
+  }
+}
 
 </style>
