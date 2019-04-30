@@ -128,7 +128,7 @@
           <p>名前</p>
         </div>
         <div class="talents-name-in tbox">
-          <input v-model="tname" type="tname" placeholder="タレントの名前">
+          <input v-model="tname" type="tname" placeholder="　名前">
         </div>
       </div>
 
@@ -137,7 +137,7 @@
           <p>自己紹介文</p>
         </div>
         <div class="talents-textarea tbox">
-          <textarea v-model="ttext" type="ttext" placeholder="タレントの自己紹介文"></textarea>
+          <textarea v-model="ttext" type="ttext" placeholder="佐々木愛です🤗emomaというアイドルグループのリーダーです✨よろしくお願いします！😍"></textarea>
         </div>
       </div>
 
@@ -147,6 +147,15 @@
         </div>
         <div class="talents-img-in tbox">
           <input @change="fileButton" type="file" placeholder="タレントのトップ画像">
+        </div>
+      </div>
+
+      <div class="talents-amount talentsbox">
+        <div class="talnets-amount-text ttext">
+          <p>動画の値段</p>
+        </div>
+        <div class="talents-amount-in tbox">
+          <input v-model="amount" type="amount" placeholder="3000">
         </div>
       </div>
 
@@ -162,7 +171,7 @@
 
 <script>
 import firebase from '~/plugins/firebase'
-import SelectForm from '~/components/SelectForm.vue'
+// import SelectForm from '~/components/SelectForm.vue'
 import { mapActions, mapState, mapGetters } from 'vuex'
 export default {
   data() {
@@ -174,12 +183,14 @@ export default {
       // タレントの名前
       tname: '',
       // タレントの文章
-      ttext: ''
+      ttext: '',
+
+      amount: ''
     }
   },
-  components: {
-    SelectForm
-  },
+  // components: {
+  //   SelectForm
+  // },
   computed: {
     ...mapState(['filesname', 'blob']),
     ...mapGetters(['getfilesname'])
@@ -221,7 +232,8 @@ export default {
         ref_talent.set({
           tfile: url,
           tname: this.tname,
-          ttext: this.ttext
+          ttext: this.ttext,
+          amount: this.amount
         });
 
       }).catch(error => {
@@ -252,7 +264,7 @@ h2 {
 }
 
 input {
-
+  font-size: 15px;
 }
 
 .links {
@@ -295,7 +307,7 @@ input {
 }
 
 .service-content {
-  margin: 30px 0 30px;
+  margin: 40px 0;
 }
 
 .service-text {
@@ -304,7 +316,7 @@ input {
 
 .savice-title {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .savice-title h2 {
@@ -337,12 +349,13 @@ input {
 }
 
 .talents-use {
-  margin: 10px 0px 10px;
+  margin: 50px 0px;
+  background-color: #eee;
 }
 
 .talents-use-title {
   text-align: center;
-  margin-bottom: 20px;
+  padding: 40px;
 }
 
 .talents-use-title h2 {
@@ -352,18 +365,18 @@ input {
 
 .talents-use-text {
   width: 82%;
-  margin: 0 auto 30px;
+  margin: 0 auto 40px;
 }
 
 .talents-use-text p {
 }
 
 .feature {
-  margin-bottom: 20px;
+  padding: 20px;
 }
 
 .feature-text {
-  margin-bottom: 30px;
+  margin-bottom: 50px;
 }
 
 .feature-img {
@@ -373,7 +386,7 @@ input {
 
 .feature-title {
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   font-weight: 600;
 }
 
@@ -383,12 +396,12 @@ input {
 }
 
 .flow {
-  margin-bottom: 30px;
+  margin-bottom: 50px;
 }
 
 .flow-title {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .flow-title h2 {
@@ -448,17 +461,24 @@ select {
 }
 
 .talentsbox {
-  margin-bottom: 30px;
+  margin-bottom: 50px;
 }
 
 textarea {
   width: 100%;
   height: 100px;
-  border-radius: 10px
+  border-radius: 10px;
+  font-size: 15px;
 }
 
 .talents-img-in input {
 
+}
+
+.talents-amount-in input {
+  border-radius: 10px;
+  font-size: 15px;
+  height: 30px;
 }
 
 .talnets-btn {
@@ -475,6 +495,58 @@ button {
   margin-bottom: 50px;
 }
 
+/* PC */
+@media (min-width: 769px) {
+
+.service-p {
+  width: 650px;
+}
+
+.service-image {
+  text-align: center;
+}
+
+.service-image img {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.description {
+  width: 650px;
+}
+
+.talents-use {
+  text-align: center;
+}
+
+.flow-text {
+  width: 650px;
+}
+
+.registration-form {
+  text-align: center;
+}
+
+textarea {
+  width: 50%;
+}
+
+.talents-name  {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+select {
+  width: 50%;
+}
+
+.talents-img-in input {
+  width: 230px;
+}
+
+
+}
 
 
 

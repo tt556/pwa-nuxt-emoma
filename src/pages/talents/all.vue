@@ -56,11 +56,14 @@
     <!-- タレントのカテゴリーとイメージ -->
     <div class="talentbox">
       <div class="talent-category">
-        <h2>TikToker</h2>
+        <h2>ラッパー</h2>
       </div>
       <div class="talents">
         <div class="talent-img">
-          <img src="/img/sample-image.png" alt="YOUTUBER" width="160px">
+          <nuxt-link to="/talents/show/-LdgjscfJ_CKD6IZtxYq">
+            <img src="https://firebasestorage.googleapis.com/v0/b/push-bc760.appspot.com/o/%E3%82%BF%E3%83%AC%E3%83%B3%E3%83%88%2F%E3%82%8A%E3%82%8B%E3%81%A6%E3%82%99%E3%81%B2%E3%82%99.jpg?alt=media&token=49abf65f-0c68-48bf-8a1b-9e6814b3e86c" alt="" width="160px">
+            <p>りるでび a.k.a 中村めい 😈</p>
+          </nuxt-link>
         </div>
         <div class="talent-img">
           <img src="/img/sample-image.png" alt="YOUTUBER" width="160px">
@@ -184,5 +187,21 @@ h2 {
   margin: 0 5px;
   float: left;
   box-shadow: 0 2px 2px 0 rgba(0,0,0,.12), 0 2px 2px 0 rgba(0,0,0,.24);
+  position: relative;
 }
+
+.talent-img p {
+  width: 150px;
+  position: absolute;
+  bottom: -95px;
+  left: 20px;
+  color: #fff;
+  font-weight: 600;
+  text-shadow: 0px 1px 1px #999;
+}
+
+.talnets-name {
+  width: 160px;
+}
+
 </style>

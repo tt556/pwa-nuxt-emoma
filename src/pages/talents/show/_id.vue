@@ -47,7 +47,7 @@
     <div class="bottom-bar">
       <div class="bar-contents">
         <div class="price">
-          <p>¥3000</p>
+          <p>¥{{ amount }}</p>
         </div>
         <div class="days">
           <p>通常２日でお届け</p>
@@ -80,7 +80,8 @@ export default {
       tid: '',
       video: '',
       videoo: '',
-      tcategory: ''
+      tcategory: '',
+      amount: ''
     }
   },
   created() {
@@ -95,6 +96,7 @@ export default {
     var datatext = database.ref('talents/' + tid + '/ttext');
     var datatfile = database.ref('talents/' + tid + '/tfile');
     var datacategory = database.ref('talents/' + tid + '/category');
+    var dataamount = database.ref('talents/' + tid + '/amount');
     var datavideo = database.ref('talents/' + tid + '/video' + "/1");
     var datavideoo = database.ref('talents/' + tid + '/video' + "/2");
 
@@ -153,6 +155,14 @@ export default {
         console.log(snapshot.val())
         const tcategory = snapshot.val()
         this.tcategory = tcategory
+      }
+    }),
+
+    dataamount.on('value', snapshot => {
+      if (snapshot) {
+        console.log(snapshot.val())
+        const amount = snapshot.val()
+        this.amount = amount
       }
     })
   }

@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <script src="https://js.stripe.com/v2/"></script>
     <div class="back-img"></div>
     <div class="top-talents-content">
       <div class="top-talents-img">
@@ -36,10 +37,48 @@
       </div>
     </div>
 
+    <div class="card-add-form">
+      <h4>お支払い情報の入力</h4>
+
+      <div class="number-input-area">
+        <label>
+          <input class="number-input" v-model="newCreditCard.number" placeholder="Card number">
+        </label>
+      </div>
+
+      <div class="mmyy-ccv">
+
+        <div class="exp-input-area">
+          <label>
+            <input class="exp-month-input" v-model="newCreditCard.exp_month" size="2" placeholder="MM"> /
+            <input class="exp-year-input" v-model="newCreditCard.exp_year" size="4" placeholder="YY">
+          </label>
+        </div>
+
+        <div class="ccv-input-area">
+          <label>
+            <input class="ccv-input" v-model="newCreditCard.cvc" placeholder="CCV">
+          </label>
+        </div>
+
+      </div>
+
+      <div class="zip-input-area">
+        <label>
+          <input class="zip-input" v-model="newCreditCard.address_zip" placeholder="住所">
+        </label>
+      </div>
+
+      <!-- <div>
+        <button v-on:click="submitNewCreditCard">登録</button>
+        {{ newCreditCard.error }}
+      </div> -->
+    </div>
+
     <div class="bottom-bar">
       <div class="order-confirm-content">
         <div class="order-confirm-btn">
-          <button @click="orderbtn">¥3000円で確定する</button>
+          <button @click="orderbtn">¥{{ newCharge.amount }}円で確定する</button>
         </div>
       </div>
     </div>
@@ -48,7 +87,6 @@
 
 <script>
 import firebase from '~/plugins/firebase'
-import 'firebase/firestore'
 import { mapActions, mapState, mapGetters } from 'vuex'
 export default {
   data() {
@@ -68,10 +106,40 @@ export default {
 
       tfile: '',
 
-      errors: []
+      amount: '',
+
+      errors: [],
+
+      currentUser: null,
+      sources: {},
+      stripeCustomerInitialized: false,
+      newCreditCard: {
+        number: '4242424242424242',
+        cvc: '111',
+        exp_month: 1,
+        exp_year: 2020,
+        address_zip: '00000'
+      },
+      charges: {},
+      newCharge: {
+        source: null,
+        amount: ''
+      }
     }
   },
   mounted() {
+    // 多分ログインしたらってやつ
+    Stripe.setPublishableKey('pk_test_QJEarN1JjibVSItD1ehS0zac00W80CFyt4');
+    firebase.auth().onAuthStateChanged(firebaseUser => {
+      if (firebaseUser) {
+        // document.getElementById('loader').style.display = 'none';
+        this.currentUser = firebaseUser;
+        this.listen();
+      } else {
+        firebaseUI.start('#firebaseui-auth-container', firebaseAuthOptions);
+        this.currentUser = null;
+      }
+    });
     // routeのidを取得
     var tid = this.$nuxt.$route.params.id
     console.log(tid)
@@ -79,6 +147,7 @@ export default {
     var database = firebase.database();
     // それぞれの取得したい子要素を定義
     var datatfile = database.ref('talents/' + tid + '/tfile');
+    var dataamount = database.ref('talents/' + tid + '/amount')
 
     // tfileの取得、格納
     datatfile.on('value', snapshot => {
@@ -86,6 +155,14 @@ export default {
         console.log(snapshot.val())
         const tfile = snapshot.val()
         this.tfile = tfile
+      }
+    })
+
+    dataamount.on('value', snapshot => {
+      if(snapshot) {
+        console.log(snapshot.val())
+        const amount = snapshot.val()
+        this.newCharge.amount = amount
       }
     })
   },
@@ -101,6 +178,39 @@ export default {
     // leftactive押すとfalseへ切り替え
     leftactive() {
       this.isActive = !this.isActive
+    },
+    // ログインしたら発動かな？
+    listen: function() {
+      // ファイアストレージにUIDとかを保存
+      firebase.firestore().collection('stripe_customers').doc(`${this.currentUser.uid}`).onSnapshot(snapshot => {
+        this.stripeCustomerInitialized = (snapshot.data() !== null);
+      }, () => {
+        this.stripeCustomerInitialized = false;
+      });
+
+      firebase.firestore().collection('stripe_customers').doc(`${this.currentUser.uid}`).collection('sources').onSnapshot(snapshot => {
+       let newSources = {};
+        snapshot.forEach(doc => {
+          const id = doc.id;
+          newSources[id] = doc.data();
+        })
+        this.sources = newSources;
+
+      }, () => {
+
+        this.sources = {};
+      });
+
+      firebase.firestore().collection('stripe_customers').doc(`${this.currentUser.uid}`).collection('charges').onSnapshot(snapshot => {
+      let newCharges = {};
+       snapshot.forEach(doc => {
+         const id = doc.id;
+         newCharges[id] = doc.data();
+       })
+       this.charges = newCharges;
+      }, () => {
+        this.charges = {};
+      });
     },
     orderbtn() {
       console.log(this.yourname);
@@ -136,6 +246,15 @@ export default {
               // User is signed in.
               console.log(user.uid);
               console.log(orderid);
+
+              const sendMail = firebase.functions().httpsCallable('sendMail');
+              let parent = this
+              sendMail({destination: user.email}).then(function (result) {
+                // parent.snackbar = true
+                console.log(user.email);
+              })
+
+
               var timestamp = firebase.database.ServerValue.TIMESTAMP
 
               const ref_order_user = firebase.database().ref().child('users').child(user.uid).child("orderInThePast").child(orderid);
@@ -192,6 +311,34 @@ export default {
           alert("入力されてない欄があります")
         }
       }
+      Stripe.card.createToken({
+        number: this.newCreditCard.number,
+        cvc: this.newCreditCard.cvc,
+        exp_month: this.newCreditCard.exp_month,
+        exp_year: this.newCreditCard.exp_year,
+        address_zip: this.newCreditCard.address_zip
+      }, (status, response) => {
+        if (response.error) {
+          // 失敗したらエラーメッセージ
+          this.newCreditCard.error = response.error.message;
+        } else {
+          // うまくいったらトークンをファイアストアに保存
+          firebase.firestore().collection('stripe_customers').doc(this.currentUser.uid).collection('tokens').add({token: response.id}).then(() => {
+            firebase.firestore().collection('stripe_customers').doc(this.currentUser.uid).collection('charges').add({
+              source: this.newCharge.source,
+              amount: parseInt(this.newCharge.amount)
+            }).then(() => {
+              this.newCreditCard = {
+                number: '',
+                cvc: '',
+                exp_month: 1,
+                exp_year: 2017,
+                address_zip: ''
+              };
+            });
+          });
+        }
+      });
     }
   }
 }
@@ -312,5 +459,58 @@ textarea {
   width: 70%;
   border-radius: 30px;
   border: none;
+}
+
+input {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid #ccc;
+  font-size: 18px;
+  margin: 10px 0 10px;
+}
+
+button {
+  border: 1px solid #ccc;
+  background-color: #fff;
+  width: 100%;
+  padding: 10px 0;
+  border-radius: 10px;
+  margin: 15px auto;
+  font-size: 14px;
+  color: #4d4d4d;
+}
+
+.card-add-form {
+  margin: 20px 40px;
+}
+
+.card-add-form h4 {
+  margin-bottom: 10px;
+}
+
+.number-input {
+  width: 100%;
+}
+
+.mmyy-ccv {
+  display: flex;
+}
+
+.exp-month-input {
+  width: 35px;
+}
+
+.exp-year-input {
+  width: 35px;
+}
+
+.ccv-input {
+  width: 189px;
+  margin-left: 20px;
+}
+
+.zip-input {
+  width: 100%;
 }
 </style>

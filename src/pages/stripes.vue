@@ -202,13 +202,25 @@ export default {
         } else {
           // うまくいったらトークンをファイアストアに保存
           firebase.firestore().collection('stripe_customers').doc(this.currentUser.uid).collection('tokens').add({token: response.id}).then(() => {
-            this.newCreditCard = {
-              number: '',
-              cvc: '',
-              exp_month: 1,
-              exp_year: 2017,
-              address_zip: ''
-            };
+            firebase.firestore().collection('stripe_customers').doc(this.currentUser.uid).collection('charges').add({
+              source: this.newCharge.source,
+              amount: parseInt(this.newCharge.amount)
+            }).then(() => {
+              this.newCreditCard = {
+                number: '',
+                cvc: '',
+                exp_month: 1,
+                exp_year: 2017,
+                address_zip: ''
+              };
+            });
+            // this.newCreditCard = {
+            //   number: '',
+            //   cvc: '',
+            //   exp_month: 1,
+            //   exp_year: 2017,
+            //   address_zip: ''
+            // };
           });
         }
       });
