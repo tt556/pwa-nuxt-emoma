@@ -193,8 +193,8 @@ h2 {
 .talent-img p {
   width: 150px;
   position: absolute;
-  bottom: -95px;
-  left: 20px;
+  margin-top: 145px;
+  left: 15px;
   color: #fff;
   font-weight: 600;
   text-shadow: 0px 1px 1px #999;

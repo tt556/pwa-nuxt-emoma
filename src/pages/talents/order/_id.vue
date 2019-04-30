@@ -42,7 +42,7 @@
 
       <div class="number-input-area">
         <label>
-          <input class="number-input" v-model="newCreditCard.number" placeholder="Card number">
+          <input class="number-input" v-model="newCreditCard.number" placeholder="Card number" maxlength='12'>
         </label>
       </div>
 
@@ -50,14 +50,14 @@
 
         <div class="exp-input-area">
           <label>
-            <input class="exp-month-input" v-model="newCreditCard.exp_month" size="2" placeholder="MM"> /
-            <input class="exp-year-input" v-model="newCreditCard.exp_year" size="4" placeholder="YY">
+            <input class="exp-month-input" v-model="newCreditCard.exp_month" maxlength='2' placeholder="MM"> /
+            <input class="exp-year-input" v-model="newCreditCard.exp_year" maxlength='2' placeholder="YY">
           </label>
         </div>
 
         <div class="ccv-input-area">
           <label>
-            <input class="ccv-input" v-model="newCreditCard.cvc" placeholder="CCV">
+            <input class="ccv-input" v-model="newCreditCard.cvc" placeholder="CCV" maxlength='3'>
           </label>
         </div>
 
@@ -114,11 +114,11 @@ export default {
       sources: {},
       stripeCustomerInitialized: false,
       newCreditCard: {
-        number: '4242424242424242',
-        cvc: '111',
-        exp_month: 1,
-        exp_year: 2020,
-        address_zip: '00000'
+        number: '',
+        cvc: '',
+        exp_month: null,
+        exp_year: null,
+        address_zip: ''
       },
       charges: {},
       newCharge: {
@@ -213,10 +213,6 @@ export default {
       });
     },
     orderbtn() {
-      console.log(this.yourname);
-      console.log(this.sendname);
-      console.log(this.videomessage);
-      console.log(this.isActive);
 
       // 他人に送る場合
       if (this.isActive == true) {
@@ -227,7 +223,6 @@ export default {
           const ref_order = firebase.database().ref().child('order');
 
           this.orderid = ref_order.push({}).key;
-          console.log(this.orderid);
 
           var orderid = this.orderid
 
@@ -238,6 +233,60 @@ export default {
             from: this.yourname,
             orderTextData: this.videomessage,
             to: this.sendname
+          });
+
+          // ユーザーの中にorderinthepastを保存
+          firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+
+              const sendMail = firebase.functions().httpsCallable('sendMail');
+              let parent = this
+              sendMail({destination: user.email}).then(function (result) {
+                // parent.snackbar = true
+                console.log(user.email);
+              })
+
+
+              var timestamp = firebase.database.ServerValue.TIMESTAMP
+
+              const ref_order_user = firebase.database().ref().child('users').child(user.uid).child("orderInThePast").child(orderid);
+
+              ref_order_user.set({
+                orderid
+              })
+
+            } else {
+              // No user is signed in.
+              console.log("ログインしてない！")
+            }
+          });
+          // 入力内容の消去
+          this.yourname = "",
+          this.sendname = "",
+          this.videomessage = ""
+
+        // 入力されてない場合のエラー
+        } else {
+          alert("入力されてない欄があります")
+        }
+
+        // 自分に送る場合
+      } else {
+
+        if (this.yourname && this.videomessage) {
+
+          const ref_order = firebase.database().ref().child('order');
+
+          this.orderid = ref_order.push({}).key;
+
+          var orderid = this.orderid
+
+          const ref_orderid = firebase.database().ref().child('order').child(orderid);
+
+          ref_orderid.set({
+            IndexForWho: '1',
+            orderTextData: this.videomessage,
+            to: this.yourname
           });
 
           // ユーザーの中にorderinthepastを保存
@@ -265,47 +314,13 @@ export default {
 
             } else {
               // No user is signed in.
-              conosole.log("ログインしてない！")
+              console.log("ログインしてない！")
             }
           });
 
-          // 完了
-          alert("購入が完了しました")
           // 入力内容の消去
           this.yourname = "",
-          this.sendname = "",
           this.videomessage = ""
-
-        // 入力されてない場合のエラー
-        } else {
-          alert("入力されてない欄があります")
-        }
-
-        // 自分に送る場合
-      } else {
-
-        if (this.yourname && this.videomessage) {
-
-          const ref_order = firebase.database().ref().child('order');
-
-          this.orderid = ref_order.push({}).key;
-
-          const ref_orderid = firebase.database().ref().child('order').child(this.orderid);
-
-          ref_orderid.set({
-            IndexForWho: '1',
-            orderTextData: this.videomessage,
-            to: this.yourname,
-            // startedAt: firebase.database.ServerValue.TIMESTAMP
-          });
-
-          // 完了
-          alert("購入が完了しました")
-          // 入力内容の消去
-          this.yourname = "",
-          this.sendname = "",
-          this.videomessage = ""
-
 
         } else {
           alert("入力されてない欄があります")
@@ -328,11 +343,12 @@ export default {
               source: this.newCharge.source,
               amount: parseInt(this.newCharge.amount)
             }).then(() => {
+              alert('購入が完了しました');
               this.newCreditCard = {
                 number: '',
                 cvc: '',
-                exp_month: 1,
-                exp_year: 2017,
+                exp_month: '',
+                exp_year: '',
                 address_zip: ''
               };
             });
@@ -350,6 +366,16 @@ body {
   color: #4d4d4d;
   font-weight: 600;
 }
+
+p {
+  color: #4d4d4d;
+}
+
+h2, h3, h4 {
+  color: #4d4d4d;
+}
+
+
 /* 注文ページ */
 /* タレントの画像 */
 .back-img {
@@ -494,23 +520,51 @@ button {
 }
 
 .mmyy-ccv {
-  display: flex;
+  display: block;
 }
 
 .exp-month-input {
-  width: 35px;
+  width: 33px;
 }
 
 .exp-year-input {
-  width: 35px;
+  width: 33px;
 }
 
 .ccv-input {
-  width: 189px;
-  margin-left: 20px;
+  width: 84px;
 }
 
 .zip-input {
   width: 100%;
 }
+
+
+/* PC */
+@media (min-width: 769px) {
+
+.top-talents-content {
+  left: 20%;
+}
+
+.order-contents {
+  margin: 100px 20% 60px;
+}
+
+.card-add-form {
+  margin: 20px 30% 60px;
+}
+
+.order-confirm-content button {
+  width: 40%;
+}
+
+
+}
+
+
+
+
+
+
 </style>

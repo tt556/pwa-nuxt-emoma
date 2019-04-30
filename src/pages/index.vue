@@ -65,7 +65,7 @@
           </div>
           <div class="form-text-container">
             <div class="form-text">
-              <p>emoma!でビデオレターを届けてくださるタレントさんを募集しています！</p>
+              <p>私たちは夢を追いかけているタレントさんが新たな収入源としてemoma!を利用して欲しいと願っています。自分がやりたくないビデオの要求は拒否することができるのでタレントとしてのブランドを損ねることもありません。ぜひ登録して新たな収入とファンの笑顔を獲得しましょう！</p>
             </div>
           </div>
           <div class="form-btn-container">
@@ -78,6 +78,27 @@
         </div>
       </div>
     </section>
+    <!-- <section id="request-form">
+      <div class="form-backimage">
+        <div class="form-container">
+          <div class="form-title titles">
+            <h2>あの人からのビデオレターが欲しい！</h2>
+          </div>
+          <div class="form-text-container">
+            <div class="form-text">
+              <p>他にもまだ登録していないけど、ぜひご希望のタレントさんをお聞かせください！</p>
+            </div>
+          </div>
+          <div class="form-btn-container">
+            <div class="form-btn">
+              <a href="https://forms.gle/vzYe7L66YuBPtfHj6" class="links">
+                <p class="btn">登録する</p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
     <section id="contact">
       <div class="contact-content">
         <div class="contact-title titles">
@@ -325,6 +346,7 @@ p {
 
 .form-title h2 {
   color: #fff;
+  font-size: 35px;
 }
 
 .form-text-container {
@@ -337,6 +359,7 @@ p {
 
 .form-text p {
   color: #fff;
+  font-size: 15px;
 }
 
 .form-btn-container {
