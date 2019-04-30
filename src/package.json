@@ -1,6 +1,6 @@
 {
-  "name": "nuxt-emoma",
-  "description": "nuxt-emoma",
+  "name": "emoma!",
+  "description": "emoma!",
   "private": true,
   "scripts": {
     "dev": "nuxt",

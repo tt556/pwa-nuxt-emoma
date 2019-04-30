@@ -233,6 +233,7 @@ export default {
           tfile: url,
           tname: this.tname,
           ttext: this.ttext,
+          category: this.talentscategory,
           amount: this.amount
         });
 

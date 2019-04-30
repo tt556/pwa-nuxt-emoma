@@ -45,7 +45,7 @@ module.exports = {
     '@nuxtjs/pwa'
   ],
   manifest: {
-    name: 'Nuxt.js Firebase PWA',
+    name: 'emoma!',
     lang: 'ja'
   }
 }

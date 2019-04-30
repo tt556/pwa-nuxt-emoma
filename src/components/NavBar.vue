@@ -24,7 +24,7 @@
 .navbar {
   width: 100%;
   line-height: 1.5;
-  position: fixed;
+  /* position: fixed; */
   top: 0;
   left: 0;
   background-color: rgba(255, 255, 255, 0.5);
@@ -33,7 +33,7 @@
 
 .navbar-content {
   display: flex;
-  margin: 5px 10px 5px 15px;
+  padding: 5px 10px 5px 15px;
 }
 
 .nav-logo {

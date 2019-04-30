@@ -129,14 +129,13 @@ export default {
   },
   mounted() {
     // 多分ログインしたらってやつ
-    Stripe.setPublishableKey('pk_test_QJEarN1JjibVSItD1ehS0zac00W80CFyt4');
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if (firebaseUser) {
         // document.getElementById('loader').style.display = 'none';
         this.currentUser = firebaseUser;
         this.listen();
       } else {
-        firebaseUI.start('#firebaseui-auth-container', firebaseAuthOptions);
+        // firebaseUI.start('#firebaseui-auth-container', firebaseAuthOptions);
         this.currentUser = null;
       }
     });
@@ -184,6 +183,7 @@ export default {
       // ファイアストレージにUIDとかを保存
       firebase.firestore().collection('stripe_customers').doc(`${this.currentUser.uid}`).onSnapshot(snapshot => {
         this.stripeCustomerInitialized = (snapshot.data() !== null);
+        Stripe.setPublishableKey('pk_test_QJEarN1JjibVSItD1ehS0zac00W80CFyt4');
       }, () => {
         this.stripeCustomerInitialized = false;
       });

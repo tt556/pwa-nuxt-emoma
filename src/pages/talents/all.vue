@@ -126,7 +126,7 @@ body {
 /* 検索 */
 .search {
   text-align: center;
-  margin: 70px 0 0 0;
+  margin: 40px 0 0 0;
 }
 
 input[type="search"] {
