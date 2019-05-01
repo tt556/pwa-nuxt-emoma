@@ -14,15 +14,17 @@
             </div>
             <!-- ツイッターとかのロゴたち -->
             <div class="logos">
-              <a href="https://twitter.com/emoma_official">
+              <a href="{{ twitter }}">
                 <i class="fab fa-twitter fa-lg"></i>
               </a>
-              <a href="https://twitter.com/emoma_official">
+              <a href="{{ instagram }}">
                 <i class="fab fa-instagram fa-lg"></i>
               </a>
-              <a href="https://twitter.com/emoma_official">
+              <a href="{{ youtube }}">
                 <i class="fab fa-youtube fa-lg"></i>
               </a>
+              <a href="{{ other }}"></a>
+              <i class="fas fa-link fa-lg"></i>
             </div>
           </div>
 
@@ -112,7 +114,12 @@ export default {
       // カテゴリー
       tcategory: '',
       // 料金
-      amount: ''
+      amount: '',
+      //SNS
+      twitter: '',
+      instagram: '',
+      YouTube: '',
+      Other: ''
     }
   },
   components: {
@@ -134,6 +141,11 @@ export default {
     var dataamount = database.ref('talents/' + tid + '/amount');
     var datavideo = database.ref('talents/' + tid + '/video' + "/1");
     var datavideoo = database.ref('talents/' + tid + '/video' + "/2");
+    var dataTwitter = database.ref(''talents/' + tid + '/sns' + "/twitter"');
+    var dataInstagram = database.ref(''talents/' + tid + '/sns' + "/instagram"');
+    var dataYoutube = database.ref(''talents/' + tid + '/sns' + "/youtube"');
+    var dataOther = database.ref(''talents/' + tid + '/sns' + "/other"');
+
 
     // tnameの取得、格納
     datatname.on('value', snapshot => {
@@ -202,7 +214,42 @@ export default {
         const amount = snapshot.val()
         this.amount = amount
       }
+    }),
+
+    //SNSの取得
+    //twitter
+    dataTwitter.on('value', snapshot => {
+      if (snapshot) {
+        console.log(snapshot.val())
+        const twitter = snapshot.val()
+        this.twitter = twitter
+      }
+    }),
+
+    dataInstagram.on('value', snapshot => {
+      if (snapshot) {
+        console.log(snapshot.val())
+        const instagram = snapshot.val()
+        this.instagram = instagram
+      }
+    }),
+
+    dataYoutube.on('value', snapshot => {
+      if (snapshot) {
+        console.log(snapshot.val())
+        const youtube = snapshot.val()
+        this.youtube = youtube
+      }
+    }),
+
+    dataOther.on('value', snapshot => {
+      if (snapshot) {
+        console.log(snapshot.val())
+        const other = snapshot.val()
+        this.other = other
+      }
     })
+
 
   }
 }
@@ -318,7 +365,7 @@ body {
 
 .price p {
   margin: 0;
-  color: red;
+  color: #FC437B;
   font-size: 18px;
   font-weight: 600;
 }
