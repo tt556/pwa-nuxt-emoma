@@ -63,4 +63,12 @@
   color: #4d4d4d;
 }
 
+@media (min-width: 769px) {
+
+.navbar-content {
+  padding: 5px 20%;
+}
+
+}
+
 </style>

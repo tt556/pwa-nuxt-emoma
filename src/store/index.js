@@ -4,7 +4,10 @@ export const strict = false
 export const state = () => ({
   user: null,
   filesname: null,
-  blob: null
+  blob: null,
+  // yourname: null,
+  // sendname: null,
+  // videomessage: null
   // talent: []
 })
 
@@ -31,7 +34,9 @@ export const getters = {
     return !!state.filesname
     return !!state.blob
   },
-  // gettalent (state) {
-  //   return !!state.talent
+  // getorder (state) {
+  //   return !!state.yourname
+  //   return !!state.sendname
+  //   return !!state.videomessage
   // }
 }

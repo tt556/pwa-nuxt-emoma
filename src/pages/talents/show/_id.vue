@@ -2,21 +2,31 @@
   <div>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <div class="container">
+      <nav-bar/>
       <div class="talent-profile-top">
+        <!-- タレントの画像の背景 -->
         <div class="back-img"></div>
         <div class="relative-box">
           <div class="img-logo">
+            <!-- タレントの画像 -->
             <div class="talents-show-img">
               <img :src="tfile" alt="" width="100px" height="100px;">
             </div>
+            <!-- ツイッターとかのロゴたち -->
             <div class="logos">
               <a href="https://twitter.com/emoma_official">
-                <i class="fab fa-twitter fa-2x"></i>
+                <i class="fab fa-twitter fa-lg"></i>
               </a>
-              <i class="fab fa-instagram fa-2x"></i>
-              <i class="fab fa-youtube fa-2x"></i>
+              <a href="https://twitter.com/emoma_official">
+                <i class="fab fa-instagram fa-lg"></i>
+              </a>
+              <a href="https://twitter.com/emoma_official">
+                <i class="fab fa-youtube fa-lg"></i>
+              </a>
             </div>
           </div>
+
+          <!-- タレントの名前と自己紹介 -->
           <div class="talent-profile-name-texts">
             <div class="talents-name">
               <div>{{ tname }}</div>
@@ -25,18 +35,24 @@
               <p>{{ ttext }}</p>
             </div>
           </div>
+
+          <!-- タレントのカテゴリー -->
           <div class="category-boxes">
             <div class="category-box">
               <div class="category-name">{{ tcategory }}</div>
             </div>
           </div>
+
         </div>
       </div>
+
+      <!-- ビデオ -->
       <div class="talents-bottom-videos">
         <div class="latest-videos">
           <p>最新のビデオ</p>
         </div>
         <div class="videos">
+          <!-- <p>公開可能なビデオはありません</p> -->
           <!-- <video src="https://firebasestorage.googleapis.com/v0/b/push-bc760.appspot.com/o/test5.MOV?alt=media&token=0c1b986a-6d16-463a-882e-fc6426d7b229" controls></video>
           <video :src="video" controls alt="" width="45%"></video>
           <video :src="videoo" controls alt="" width="45%"></video>
@@ -44,7 +60,11 @@
         </div>
       </div>
     </div>
+
+    <!-- 下にfixで表示させる料金と予約へのボタン -->
     <div class="bottom-bar">
+
+      <!-- 料金と日時 -->
       <div class="bar-contents">
         <div class="price">
           <p>¥{{ amount }}</p>
@@ -53,6 +73,8 @@
           <p>通常２日でお届け</p>
         </div>
       </div>
+
+      <!-- 予約ボタン -->
       <div class="bar-contents">
         <div class="to-order-box">
           <div class="to-order-btn">
@@ -62,6 +84,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -69,26 +92,38 @@
 <script>
 import Vue from "vue";
 import firebase from '~/plugins/firebase'
+import NavBar from '~/components/NavBar.vue'
 import { mapActions, mapState, mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      // talent: []
+      // タレントの
+      // 名前
       tname: '',
+      // 自己紹介文
       ttext: '',
+      // 画像
       tfile: '',
+      // id
       tid: '',
+      // video
       video: '',
       videoo: '',
+      // カテゴリー
       tcategory: '',
+      // 料金
       amount: ''
     }
   },
-  created() {
+  components: {
+    NavBar
+  },
+
+  // HTMLとかが読み込まれると発動？
+  mounted() {
     // routeのidを取得
     var tid = this.$nuxt.$route.params.id
     this.tid = tid
-    console.log(tid);
     // データベースを定義
     var database = firebase.database();
     // それぞれの取得したい子要素を定義
@@ -134,6 +169,7 @@ export default {
       }
     }),
 
+    // ビデオの取得
     datavideo.on('value', snapshot => {
       if (snapshot) {
         console.log(snapshot.val())
@@ -150,6 +186,7 @@ export default {
       }
     }),
 
+    // カテゴリーの取得
     datacategory.on('value', snapshot => {
       if (snapshot) {
         console.log(snapshot.val())
@@ -158,6 +195,7 @@ export default {
       }
     }),
 
+    // 料金の取得
     dataamount.on('value', snapshot => {
       if (snapshot) {
         console.log(snapshot.val())
@@ -165,6 +203,7 @@ export default {
         this.amount = amount
       }
     })
+
   }
 }
 </script>
@@ -301,6 +340,29 @@ body {
   margin: 5px;
   color: #fff;
   font-weight: 600;
+}
+
+/* PC */
+@media (min-width: 769px) {
+
+.relative-box {
+  left: 20%;
+  width: 80%;
+}
+
+.talents-bottom-videos {
+  margin: 70px 20% 10px;
+}
+
+.latest-videos p {
+  margin: 0;
+}
+
+.bottom-bar {
+  width: 60%;
+  margin: 10px 20%;
+}
+
 }
 
 </style>

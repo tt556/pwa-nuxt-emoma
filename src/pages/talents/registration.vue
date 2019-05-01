@@ -237,6 +237,14 @@ export default {
           amount: this.amount
         });
 
+        alert('登録が完了しました')
+
+        this.tname = '',
+        this.ttext = '',
+        this.category = '',
+        this.amount = '',
+        this.tfile = ''
+
       }).catch(error => {
         console.log(error);
 

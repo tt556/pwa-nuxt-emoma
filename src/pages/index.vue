@@ -11,9 +11,9 @@
           </div>
           <div class="request-top">
             <div class="request-btn">
-              <nuxt-link class="links" to="/talents/all">
+              <a href="#talents">
                 <p class="btn">リクエストする</p>
-              </nuxt-link>
+              </a>
             </div>
           </div>
         </div>
@@ -38,18 +38,18 @@
       </div>
       <div class="talnets-content">
         <div class="talnets-img-container">
-          <img src="img/sample-image.jpg" alt="タレントの画像" width="300px">
+          <img src="https://firebasestorage.googleapis.com/v0/b/push-bc760.appspot.com/o/%E3%82%BF%E3%83%AC%E3%83%B3%E3%83%88%2F%E3%82%8A%E3%82%8B%E3%81%A6%E3%82%99%E3%81%B2%E3%82%99.jpg?alt=media&token=49abf65f-0c68-48bf-8a1b-9e6814b3e86c" alt="タレントの画像" width="300px" height="200px">
         </div>
         <div class="talents-name-container">
           <div class="talnets-name">
-            <p>名前（なまえ）</p>
+            <p>りるでび a.k.a 中村めい 😈</p>
           </div>
           <div class="talents-category">
-            <p>ユーチューバー（カテゴリー）</p>
+            <p>ラッパー</p>
           </div>
           <div class="request-btn-container">
             <div class="request-btn-bottom">
-              <nuxt-link class="links" to="/talents/all">
+              <nuxt-link class="links" to="/talents/show/-LdgjscfJ_CKD6IZtxYq">
                 <p class="btn">リクエストする</p>
               </nuxt-link>
             </div>
@@ -70,9 +70,9 @@
           </div>
           <div class="form-btn-container">
             <div class="form-btn">
-              <a href="https://forms.gle/vzYe7L66YuBPtfHj6" class="links">
+              <nuxt-link to="/talents/regist" class="links">
                 <p class="btn">登録する</p>
-              </a>
+              </nuxt-link>
             </div>
           </div>
         </div>
@@ -284,7 +284,8 @@ p {
 }
 
 .talnets-img-container img {
-  width: 300px;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 .talents-name-container {
@@ -454,7 +455,7 @@ footer {
 
   .talnets-img-container img {
     width: 400px;
-
+    height: 280px;
   }
 
   .talents-name-container {

@@ -173,8 +173,14 @@ exports.sendMail = functions.https.onCall((data, context) => {
     let email = {
         from: gmailEmail,
         to: data.destination,
-        subject: 'test message',
-        text: 'This is a test message from vue.'
+        subject: 'ご注文確認メール',
+        html: '<p>emoma!運営</p><br>' +
+        '<p>emoma!をご利用いただきありがとうございます。下記のビデオのご予約が完了しました。</p><br>' +
+        '<p>支払い方法 : クレジットカードビデオのお届けまでしばらくお待ちください。通常3日ほどでお届け致します。なお、タレントのブランドを損ねるようなご要望の場合、ビデオ作成を拒否されることがあります。</p><br>' +
+        '<p>ビデオが完成しましたらこちらのメールアドレスに迅速にお送り致します。</p><br>' +
+        '<p>emma![エモマ]サイトに戻る。https://push-bc760.firebaseapp.com/talents/registration</p><br>' +
+        '<p>※お問い合わせはemoma.official@gmail.comまでお願い致します。</p><br>'
+
     }
     mailTransport.sendMail(email, (err, info) => {
         if (err) {
